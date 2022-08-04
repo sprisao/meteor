@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var manager: CardStackLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
