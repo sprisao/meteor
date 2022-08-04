@@ -28,6 +28,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/emailArea"
 				android:hint="email"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content" />
@@ -39,6 +40,7 @@
 			app:counterEnabled="true"
 			app:counterMaxLength="10">
 			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/pwdArea"
 				android:hint="password"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content" />
@@ -49,6 +51,7 @@
 			app:counterEnabled="true"
 			app:counterMaxLength="10">
 			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/pwdCheckArea"
 				android:hint="password check"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content" />
@@ -90,6 +93,7 @@
 				android:layout_height="wrap_content" />
 		</com.google.android.material.textfield.TextInputLayout>
 		<Button
+			android:id="@+id/btnJoin"
 			android:layout_marginVertical="15dp"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
