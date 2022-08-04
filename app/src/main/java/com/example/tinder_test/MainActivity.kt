@@ -3,6 +3,7 @@ package com.example.tinder_test
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.tinder_test.slider.CardStackAdapter
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
@@ -15,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var manager: CardStackLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
