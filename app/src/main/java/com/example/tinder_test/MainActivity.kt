@@ -1,5 +1,4 @@
 package com.example.tinder_test
-
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -8,20 +7,24 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.tinder_test.auth.IntroActivity
 import com.example.tinder_test.auth.UserDataModel
 import com.example.tinder_test.setting.SettingActivity
 import com.example.tinder_test.slider.CardStackAdapter
+import com.example.tinder_test.utils.FirebaseAuthUtils
 import com.example.tinder_test.utils.FirebaseRef
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.CardStackView
 import com.yuyakaido.android.cardstackview.Direction
+import kotlinx.android.synthetic.main.activity_my_page.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,12 +34,18 @@ class MainActivity : AppCompatActivity() {
 
     private var userCount = 0
 
+    private lateinit var currentUserGender:String
+
+    private val uid = FirebaseAuthUtils.getUid()
+
     lateinit var cardStackAdapter: CardStackAdapter
     lateinit var manager: CardStackLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
 
         val setting = findViewById<ImageView>(R.id.settingIcon)
         setting.setOnClickListener {
@@ -60,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                 userCount = userCount + 1
                 if(userCount == userDataList.count()){
                     Toast.makeText(this@MainActivity,"새로운 유저 받아오기",Toast.LENGTH_LONG).show()
-                    getUserDataList()
+                    getUserDataList(currentUserGender)
                 }
             }
 
@@ -86,10 +95,36 @@ class MainActivity : AppCompatActivity() {
         cardStackView.layoutManager = manager
         cardStackView.adapter = cardStackAdapter
 
-        getUserDataList()
+        getMyUserData()
     }
 
-    private fun getUserDataList() {
+    private fun getMyUserData(){
+
+        val postListener = object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                Log.d(TAG,dataSnapshot.toString())
+                val data = dataSnapshot.getValue(UserDataModel::class.java)
+
+                Log.d(TAG, data!!.gender.toString())
+
+                currentUserGender = data?.gender.toString()
+
+                getUserDataList(currentUserGender)
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+
+        }
+        FirebaseRef.userInfoRef.child(uid).addValueEventListener(postListener)
+    }
+
+    private fun getUserDataList(currentUserGender : String) {
         val postListener = object : ValueEventListener {
 
             @SuppressLint("NotifyDataSetChanged")
@@ -97,7 +132,12 @@ class MainActivity : AppCompatActivity() {
 
                 for (dataModel in dataSnapshot.children){
                     val user = dataModel.getValue(UserDataModel::class.java)
-                    userDataList.add(user!!)
+
+                    if(user!!.gender.toString().equals(currentUserGender)){
+
+                    }else{
+                        userDataList.add(user!!)
+                    }
                 }
 
                 cardStackAdapter.notifyDataSetChanged()

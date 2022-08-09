@@ -36,8 +36,8 @@ class MyPageActivity : AppCompatActivity() {
         val myAge = findViewById<TextView>(R.id.age)
         val myCity = findViewById<TextView>(R.id.city)
         val myGender = findViewById<TextView>(R.id.gender)
-        val postListener = object : ValueEventListener {
 
+        val postListener = object : ValueEventListener {
             @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
