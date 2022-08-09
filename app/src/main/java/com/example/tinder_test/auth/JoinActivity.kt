@@ -1,8 +1,13 @@
 package com.example.tinder_test.auth
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tinder_test.MainActivity
 import com.example.tinder_test.R
@@ -11,7 +16,9 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.activity_join.*
+import java.io.ByteArrayOutputStream
 
 class JoinActivity : AppCompatActivity() {
 
@@ -23,12 +30,28 @@ class JoinActivity : AppCompatActivity() {
     private var city = ""
     private var age = ""
     private var nickname = ""
+
+    lateinit var profileImage : ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         auth = Firebase.auth
+
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_join)
 
-//         닉네임, 성별, 지역, 나이, UID
+
+        profileImage = findViewById(R.id.imageArea)
+
+        val getAction = registerForActivityResult(
+            ActivityResultContracts.GetContent(),
+            ActivityResultCallback { uri ->
+                profileImage.setImageURI(uri)
+            }
+        )
+
+        profileImage.setOnClickListener {
+            getAction.launch("image/*")
+        }
 
         btnJoin.setOnClickListener {
             val email = findViewById<TextInputEditText>(R.id.emailArea)
@@ -54,6 +77,7 @@ class JoinActivity : AppCompatActivity() {
                         startActivity(intent)
 
                         FirebaseRef.userInfoRef.child(uid).setValue(userModel)
+                        uploadImage(uid)
 
                     } else {
                         Log.w(TAG, "createUserWithEmail:failure", task.exception)
@@ -61,4 +85,24 @@ class JoinActivity : AppCompatActivity() {
                 }
         }
     }
+   private fun uploadImage(uid : String){
+
+       val storage = Firebase.storage
+       val storageRef = storage.reference.child(uid + ".png")
+       // Get the data from an ImageView as bytes
+       profileImage.isDrawingCacheEnabled = true
+       profileImage.buildDrawingCache()
+       val bitmap = (profileImage.drawable as BitmapDrawable).bitmap
+       val baos = ByteArrayOutputStream()
+       bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+       val data = baos.toByteArray()
+
+       var uploadTask = storageRef.putBytes(data)
+       uploadTask.addOnFailureListener {
+           // Handle unsuccessful uploads
+       }.addOnSuccessListener { taskSnapshot ->
+           // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+           // ...
+       }
+   }
 }

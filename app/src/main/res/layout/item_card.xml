@@ -35,7 +35,6 @@
 	    
         <ImageView
 	        android:id="@+id/profileImageArea"
-	        android:src="@drawable/google"
 	        android:layout_width="match_parent"
 	        android:layout_height="450dp" />
 	    

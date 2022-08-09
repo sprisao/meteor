@@ -18,10 +18,11 @@
 		android:gravity="center">
 		
 		<ImageView
-			android:src="@drawable/ic_launcher"
-			android:layout_marginVertical="100dp"
-			android:layout_width="100dp"
-			android:layout_height="100dp"
+			android:id="@+id/imageArea"
+			android:src="@drawable/user"
+			android:layout_marginVertical="50dp"
+			android:layout_width="250dp"
+			android:layout_height="250dp"
 			android:layout_gravity="center" />
 		
 		<com.google.android.material.textfield.TextInputLayout
