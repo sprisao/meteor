@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tinder_test.auth.IntroActivity
 import com.example.tinder_test.auth.UserDataModel
+import com.example.tinder_test.setting.SettingActivity
 import com.example.tinder_test.slider.CardStackAdapter
 import com.example.tinder_test.utils.FirebaseRef
 import com.google.firebase.auth.ktx.auth
@@ -27,6 +29,8 @@ class MainActivity : AppCompatActivity() {
 
     private val userDataList = mutableListOf<UserDataModel>()
 
+    private var userCount = 0
+
     lateinit var cardStackAdapter: CardStackAdapter
     lateinit var manager: CardStackLayoutManager
 
@@ -36,9 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         val setting = findViewById<ImageView>(R.id.settingIcon)
         setting.setOnClickListener {
-            val auth = Firebase.auth
-            auth.signOut()
-            val intent = Intent(this, IntroActivity::class.java)
+            val intent = Intent(this, SettingActivity::class.java)
             startActivity(intent)
         }
 
@@ -48,6 +50,18 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onCardSwiped(direction: Direction?) {
+               if(direction == Direction.Right){
+                   Toast.makeText(this@MainActivity,"right",Toast.LENGTH_LONG).show()
+               }
+                if(direction == Direction.Left){
+                    Toast.makeText(this@MainActivity,"right",Toast.LENGTH_LONG).show()
+                }
+
+                userCount = userCount + 1
+                if(userCount == userDataList.count()){
+                    Toast.makeText(this@MainActivity,"새로운 유저 받아오기",Toast.LENGTH_LONG).show()
+                    getUserDataList()
+                }
             }
 
             override fun onCardRewound() {
