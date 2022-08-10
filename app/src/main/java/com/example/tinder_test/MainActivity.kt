@@ -1,13 +1,19 @@
 package com.example.tinder_test
 
 import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.example.tinder_test.auth.UserDataModel
 import com.example.tinder_test.setting.SettingActivity
 import com.example.tinder_test.slider.CardStackAdapter
@@ -102,6 +108,7 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 Log.d(TAG, dataSnapshot.toString())
+
                 val data = dataSnapshot.getValue(UserDataModel::class.java)
 
                 Log.d(TAG, data!!.gender.toString())
@@ -168,6 +175,8 @@ class MainActivity : AppCompatActivity() {
                     if(likeUserkey.equals(uid)){
                         Toast.makeText(this@MainActivity, "매칭되었습니다🎉",Toast.LENGTH_SHORT).show()
 
+                        createNotificationChannel()
+                       sendNotification()
                     }
                 }
             }
@@ -180,5 +189,36 @@ class MainActivity : AppCompatActivity() {
         }
         FirebaseRef.userLikeRef.child(otherUid).addValueEventListener(postListener)
     }
+
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "name"
+            val descriptionText = "description"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("Test_Channel", name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun sendNotification(){
+        var builder = NotificationCompat.Builder(this, "Test_Channel")
+            .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
+            .setContentTitle("New Match!!")
+            .setContentText("Send some text to your match!")
+            .setStyle(NotificationCompat.BigTextStyle()
+                .bigText("Don't make your match to wait too long."))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        with(NotificationManagerCompat.from(this)){
+            notify(123, builder.build())
+        }
+    }
+
 }
 

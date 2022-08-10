@@ -1,6 +1,5 @@
 package com.example.tinder_test.auth
-
-class UserDataModel(
+data class UserDataModel(
     val uid: String? = null,
     val nickname: String? = null,
     val age: String? = null,

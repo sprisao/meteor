@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import com.example.tinder_test.R
 import com.example.tinder_test.auth.IntroActivity
+import com.example.tinder_test.message.MyLikeListActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -27,6 +28,14 @@ class SettingActivity : AppCompatActivity() {
             val auth = Firebase.auth
             auth.signOut()
             val intent = Intent(this, IntroActivity::class.java)
+            startActivity(intent)
+        }
+
+        val likedBtn = findViewById<Button>(R.id.likedBtn)
+
+        likedBtn.setOnClickListener {
+
+            val intent = Intent(this, MyLikeListActivity::class.java)
             startActivity(intent)
         }
 
