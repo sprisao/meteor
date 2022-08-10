@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.widget.ListView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tinder_test.R
 import com.example.tinder_test.auth.UserDataModel
@@ -32,14 +33,53 @@ class MyLikeListActivity : AppCompatActivity() {
         listViewAdapter = ListViewAdapter(this, likeUserList)
         userListView.adapter = listViewAdapter
 
-
         //내가 좋아요한 유저들
         getMyLikeList()
 
+       userListView.setOnItemClickListener { parent, view, position, id ->
+           Log.d(TAG,likeUserList[position].uid.toString())
+           checkMatch(likeUserList[position].uid.toString())
+       }
     }
 
 
-    private fun getMyLikeList(){
+    private fun checkMatch(otherUid : String){
+
+        val postListener = object : ValueEventListener {
+
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                Log.d(TAG, otherUid)
+                Log.e(TAG, dataSnapshot.toString())
+
+                if(dataSnapshot.children.count() == 0){
+                    Toast.makeText(this@MyLikeListActivity, "Not a Matched", Toast.LENGTH_LONG).show()
+                }else {
+                    for (dataModel in dataSnapshot.children) {
+
+                        val likeUserkey = dataModel.key.toString()
+                        if(likeUserkey.equals(uid)){
+                            Toast.makeText(this@MyLikeListActivity, "This is a match", Toast.LENGTH_LONG).show()
+                        } else{
+                            Toast.makeText(this@MyLikeListActivity, "Not a Matched", Toast.LENGTH_LONG).show()
+                        }
+
+                    }
+                }
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+
+        }
+        FirebaseRef.userLikeRef.child(otherUid).addValueEventListener(postListener)
+    }
+
+    private fun getMyLikeList() {
 
         val postListener = object : ValueEventListener {
 
@@ -68,7 +108,7 @@ class MyLikeListActivity : AppCompatActivity() {
                 for (dataModel in dataSnapshot.children) {
                     val user = dataModel.getValue(UserDataModel::class.java)
 
-                    if(likeUserListUid.contains(user?.uid)){
+                    if (likeUserListUid.contains(user?.uid)) {
                         likeUserList.add(user!!)
                     }
                 }
