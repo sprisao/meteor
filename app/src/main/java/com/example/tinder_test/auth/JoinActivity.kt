@@ -12,10 +12,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.tinder_test.MainActivity
 import com.example.tinder_test.R
 import com.example.tinder_test.utils.FirebaseRef
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.activity_join.*
 import java.io.ByteArrayOutputStream
@@ -69,15 +71,26 @@ class JoinActivity : AppCompatActivity() {
                         val user = auth.currentUser
                         uid = user?.uid.toString()
 
-                        val userModel = UserDataModel(
-                            uid, nickname, age, gender, city
-                        )
+                        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                            if (!task.isSuccessful) {
+                                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                                return@OnCompleteListener
+                            }
 
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
+                            // Get new FCM registration token
+                            val token = task.result
 
-                        FirebaseRef.userInfoRef.child(uid).setValue(userModel)
-                        uploadImage(uid)
+                            val userModel = UserDataModel(
+                                uid, nickname, age, gender, city, token
+
+                            )
+
+                            val intent = Intent(this, MainActivity::class.java)
+                            startActivity(intent)
+
+                            FirebaseRef.userInfoRef.child(uid).setValue(userModel)
+                            uploadImage(uid)
+                        })
 
                     } else {
                         Log.w(TAG, "createUserWithEmail:failure", task.exception)
