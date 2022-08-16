@@ -82,7 +82,6 @@ class JoinActivity : AppCompatActivity() {
 
                             val userModel = UserDataModel(
                                 uid, nickname, age, gender, city, token
-
                             )
 
                             val intent = Intent(this, MainActivity::class.java)
