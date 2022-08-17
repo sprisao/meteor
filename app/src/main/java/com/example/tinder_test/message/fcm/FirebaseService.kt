@@ -62,12 +62,10 @@ class FirebaseService : FirebaseMessagingService(){
             .setContentText(body)
             .setStyle(
                 NotificationCompat.BigTextStyle()
-                .bigText("Don't make your match to wait too long."))
+                .bigText(body))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         with(NotificationManagerCompat.from(this)){
             notify(123, builder.build())
         }
     }
-
-
 }
