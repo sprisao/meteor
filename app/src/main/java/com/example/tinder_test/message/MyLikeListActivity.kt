@@ -3,8 +3,11 @@ package com.example.tinder_test.message
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tinder_test.R
 import com.example.tinder_test.auth.UserDataModel
@@ -85,7 +88,7 @@ class MyLikeListActivity : AppCompatActivity() {
                 Log.d(TAG, otherUid)
                 Log.e(TAG, dataSnapshot.toString())
 
-               // 상대방의 좋아요가 비어있다? -> ㅂㅅ
+                // 상대방의 좋아요가 비어있다? -> ㅂㅅ
                 if (dataSnapshot.children.count() == 0) {
                     Toast.makeText(this@MyLikeListActivity, "Like leer", Toast.LENGTH_LONG)
                         .show()
@@ -93,15 +96,17 @@ class MyLikeListActivity : AppCompatActivity() {
                     for (dataModel in dataSnapshot.children) {
 
                         val likeUserkey = dataModel.key.toString()
-                        // 서로 좋아요 한 경우
                         if (likeUserkey.equals(uid)) {
+                            // 서로 좋아요 한 경우
+                            showDialog()
                             Toast.makeText(
                                 this@MyLikeListActivity,
                                 "This is a match",
                                 Toast.LENGTH_LONG
                             ).show()
-                        // 상대가 좋아요 하지 않은 경우
+
                         } else {
+                            // 상대가 좋아요 하지 않은 경우
                             Toast.makeText(
                                 this@MyLikeListActivity,
                                 "Not a Matched",
@@ -188,4 +193,20 @@ class MyLikeListActivity : AppCompatActivity() {
                 Log.e(TAG, e.toString())
             }
         }
+
+    // Dialog
+    private fun showDialog() {
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
+        val mBuilder = AlertDialog.Builder(this).setView(mDialogView).setTitle("메세지 보내기")
+
+       val mAlertDialog =  mBuilder.show()
+
+        val btn = mAlertDialog.findViewById<Button>(R.id.sendBtn)
+
+        btn?.setOnClickListener{
+            mAlertDialog.dismiss()
+        }
+
+    }
+
 }
