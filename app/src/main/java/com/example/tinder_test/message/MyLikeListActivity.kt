@@ -8,11 +8,19 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tinder_test.R
 import com.example.tinder_test.auth.UserDataModel
+import com.example.tinder_test.message.fcm.NotificationData
+import com.example.tinder_test.message.fcm.PushNotification
+import com.example.tinder_test.message.fcm.RetrofitInstance
 import com.example.tinder_test.utils.FirebaseAuthUtils
 import com.example.tinder_test.utils.FirebaseRef
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 
 class MyLikeListActivity : AppCompatActivity() {
 
@@ -37,13 +45,25 @@ class MyLikeListActivity : AppCompatActivity() {
         getMyLikeList()
 
        userListView.setOnItemClickListener { parent, view, position, id ->
-           Log.d(TAG,likeUserList[position].uid.toString())
-           checkMatch(likeUserList[position].uid.toString())
+
+           val title = "Hi"
+           val message = "Message"
+           val token = likeUserList[position].token.toString()
+
+           if (title.isNotEmpty() && message.isNotEmpty()) {
+               PushNotification(
+                   NotificationData(title, message),
+                   token
+               ).also {
+                   sendNotification(it)
+               }
+
+           }
        }
-    }
+}
 
 
-    private fun checkMatch(otherUid : String){
+private fun checkMatch(otherUid : String){
 
         val postListener = object : ValueEventListener {
 
@@ -125,4 +145,21 @@ class MyLikeListActivity : AppCompatActivity() {
         }
         FirebaseRef.userInfoRef.addValueEventListener(postListener)
     }
+
+
+    private fun sendNotification(notification: PushNotification) =
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+
+                val response = RetrofitInstance.api.postNotification(notification)
+                if (response.isSuccessful) {
+                    Log.d(TAG, "Message 성공적으로 전송됨")
+                } else {
+                    Log.e(TAG, response.body().toString())
+                }
+
+            } catch (e: Exception) {
+                Log.e(TAG, e.toString())
+            }
+        }
 }
