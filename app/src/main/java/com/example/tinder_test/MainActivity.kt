@@ -19,6 +19,7 @@ import com.example.tinder_test.setting.SettingActivity
 import com.example.tinder_test.slider.CardStackAdapter
 import com.example.tinder_test.utils.FirebaseAuthUtils
 import com.example.tinder_test.utils.FirebaseRef
+import com.example.tinder_test.utils.MyInfo
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -114,6 +115,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, data!!.gender.toString())
 
                 currentUserGender = data?.gender.toString()
+                MyInfo.myNickname = data?.nickname.toString()
 
                 getUserDataList(currentUserGender)
 

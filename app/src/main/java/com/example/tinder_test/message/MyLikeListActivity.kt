@@ -5,17 +5,20 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tinder_test.R
 import com.example.tinder_test.auth.UserDataModel
+import com.example.tinder_test.message.fcm.MsgModel
 import com.example.tinder_test.message.fcm.NotificationData
 import com.example.tinder_test.message.fcm.PushNotification
 import com.example.tinder_test.message.fcm.RetrofitInstance
 import com.example.tinder_test.utils.FirebaseAuthUtils
 import com.example.tinder_test.utils.FirebaseRef
+import com.example.tinder_test.utils.MyInfo
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -34,6 +37,7 @@ class MyLikeListActivity : AppCompatActivity() {
     private val likeUserListUid = mutableListOf<String>()
 
     private lateinit var listViewAdapter: ListViewAdapter
+    lateinit var getterUid : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -71,6 +75,7 @@ class MyLikeListActivity : AppCompatActivity() {
         userListView.setOnItemLongClickListener { parent, view, position, id ->
             Toast.makeText(this, "test", Toast.LENGTH_LONG).show()
             checkMatch(likeUserList[position].uid.toString())
+            getterUid = likeUserList[position].uid.toString()
             return@setOnItemLongClickListener (true)
         }
 
@@ -202,8 +207,12 @@ class MyLikeListActivity : AppCompatActivity() {
        val mAlertDialog =  mBuilder.show()
 
         val btn = mAlertDialog.findViewById<Button>(R.id.sendBtn)
+        val textArea = mAlertDialog.findViewById<EditText>(R.id.sendTextArea)
 
         btn?.setOnClickListener{
+//            val msgModel = MsgModel(MyInfo.myNickname, textArea!!.text.toString())
+
+            FirebaseRef.userMsgRef.child(getterUid).child(MyInfo.myNickname).push().setValue(textArea!!.text.toString())
             mAlertDialog.dismiss()
         }
 
