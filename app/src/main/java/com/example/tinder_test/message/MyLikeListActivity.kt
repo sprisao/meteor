@@ -44,26 +44,38 @@ class MyLikeListActivity : AppCompatActivity() {
         //내가 좋아요한 유저들
         getMyLikeList()
 
-       userListView.setOnItemClickListener { parent, view, position, id ->
+//       userListView.setOnItemClickListener { parent, view, position, id ->
+//
+//           // Push Notification 데이터
+//           val title = "Hi"
+//           val message = "Message"
+//           val token = likeUserList[position].token.toString()
+//
+//           // Push Notification 전송
+//           if (title.isNotEmpty() && message.isNotEmpty()) {
+//               PushNotification(
+//                   NotificationData(title, message),
+//                   token
+//               ).also {
+//                   sendNotification(it)
+//               }
+//           }
+//
+//
+//       }
 
-           val title = "Hi"
-           val message = "Message"
-           val token = likeUserList[position].token.toString()
 
-           if (title.isNotEmpty() && message.isNotEmpty()) {
-               PushNotification(
-                   NotificationData(title, message),
-                   token
-               ).also {
-                   sendNotification(it)
-               }
-
-           }
-       }
-}
+        userListView.setOnItemLongClickListener { parent, view, position, id ->
+            Toast.makeText(this, "test", Toast.LENGTH_LONG).show()
+            checkMatch(likeUserList[position].uid.toString())
+            return@setOnItemLongClickListener (true)
+        }
 
 
-private fun checkMatch(otherUid : String){
+    }
+
+
+    private fun checkMatch(otherUid: String) {
 
         val postListener = object : ValueEventListener {
 
@@ -73,16 +85,29 @@ private fun checkMatch(otherUid : String){
                 Log.d(TAG, otherUid)
                 Log.e(TAG, dataSnapshot.toString())
 
-                if(dataSnapshot.children.count() == 0){
-                    Toast.makeText(this@MyLikeListActivity, "Not a Matched", Toast.LENGTH_LONG).show()
-                }else {
+               // 상대방의 좋아요가 비어있다? -> ㅂㅅ
+                if (dataSnapshot.children.count() == 0) {
+                    Toast.makeText(this@MyLikeListActivity, "Like leer", Toast.LENGTH_LONG)
+                        .show()
+                } else {
                     for (dataModel in dataSnapshot.children) {
 
                         val likeUserkey = dataModel.key.toString()
-                        if(likeUserkey.equals(uid)){
-                            Toast.makeText(this@MyLikeListActivity, "This is a match", Toast.LENGTH_LONG).show()
-                        } else{
-                            Toast.makeText(this@MyLikeListActivity, "Not a Matched", Toast.LENGTH_LONG).show()
+                        // 서로 좋아요 한 경우
+                        if (likeUserkey.equals(uid)) {
+                            Toast.makeText(
+                                this@MyLikeListActivity,
+                                "This is a match",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        // 상대가 좋아요 하지 않은 경우
+                        } else {
+                            Toast.makeText(
+                                this@MyLikeListActivity,
+                                "Not a Matched",
+                                Toast.LENGTH_LONG
+                            ).show()
+
                         }
 
                     }
@@ -98,6 +123,7 @@ private fun checkMatch(otherUid : String){
         }
         FirebaseRef.userLikeRef.child(otherUid).addValueEventListener(postListener)
     }
+
 
     private fun getMyLikeList() {
 
