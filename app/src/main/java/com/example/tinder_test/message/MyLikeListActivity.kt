@@ -210,9 +210,8 @@ class MyLikeListActivity : AppCompatActivity() {
         val textArea = mAlertDialog.findViewById<EditText>(R.id.sendTextArea)
 
         btn?.setOnClickListener{
-//            val msgModel = MsgModel(MyInfo.myNickname, textArea!!.text.toString())
-
-            FirebaseRef.userMsgRef.child(getterUid).child(MyInfo.myNickname).push().setValue(textArea!!.text.toString())
+            val msgModel = MsgModel(MyInfo.myNickname, textArea!!.text.toString())
+            FirebaseRef.userMsgRef.child(getterUid).push().setValue(msgModel)
             mAlertDialog.dismiss()
         }
 

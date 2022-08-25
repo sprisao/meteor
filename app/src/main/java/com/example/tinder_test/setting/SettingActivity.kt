@@ -7,6 +7,7 @@ import android.widget.Button
 import com.example.tinder_test.R
 import com.example.tinder_test.auth.IntroActivity
 import com.example.tinder_test.message.MyLikeListActivity
+import com.example.tinder_test.message.MyMsgActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -21,6 +22,12 @@ class SettingActivity : AppCompatActivity() {
             val intent = Intent(this, MyPageActivity::class.java)
             startActivity(intent)
         }
+
+        val myMsg = findViewById<Button>(R.id.myMsg)
+       myMsg.setOnClickListener {
+           val intent = Intent(this, MyMsgActivity::class.java)
+           startActivity(intent)
+       }
 
         val btnLogout = findViewById<Button>(R.id.logoutBtn)
 

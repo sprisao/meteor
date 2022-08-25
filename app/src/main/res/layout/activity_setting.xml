@@ -17,6 +17,13 @@
 		android:text="Liked"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content" />
+	
+	<Button
+		android:id="@+id/myMsg"
+		android:text="Messages"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" />
+	
 	<Button
 		android:id="@+id/logoutBtn"
 		android:text="Logout"
