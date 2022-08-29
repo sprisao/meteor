@@ -17,9 +17,8 @@
     
     <style name="Theme.Tinder_test.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/white</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo_splash</item>
         <item name="windowSplashScreenAnimationDuration">1000</item>
-        
         <item name="postSplashScreenTheme">@style/Theme.Tinder_test</item>
     </style>
 </resources>
