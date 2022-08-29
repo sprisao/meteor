@@ -5,10 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.brucechoe.meteor.auth.IntroActivity
 import com.brucechoe.meteor.auth.LoginActivity
 import com.brucechoe.meteor.utils.FirebaseAuthUtils
 
-class SplashAcitivity : AppCompatActivity() {
+class SplashAcitivity : AppCompatActivity() {˚
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +29,7 @@ class SplashAcitivity : AppCompatActivity() {
         } else {
 
             Handler().postDelayed({
-                val intent = Intent(this,LoginActivity::class.java)
+                val intent = Intent(this,IntroActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 startActivity(intent)
                 finish()

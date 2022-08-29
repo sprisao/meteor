@@ -10,7 +10,7 @@
 	<ImageView
 		android:layout_width="100dp"
 		android:layout_height="100dp"
-		android:src="@drawable/logo_white"/>
+		android:src="@drawable/logo_white_crop"/>
 	
 
   </LinearLayout>
