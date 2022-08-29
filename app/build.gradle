@@ -10,7 +10,7 @@ android {
 
     defaultConfig
             {
-                applicationId "com.example.tinder_test"
+                applicationId "com.brucechoe.meteor"
                 minSdk 21
                 targetSdk 32
                 versionCode 1

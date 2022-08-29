@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	package="com.example.tinder_test">
+	package="com.brucechoe.meteor">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -15,7 +15,7 @@
 	    android:theme="@style/Theme.Tinder_test.Splash">
 
         <service
-	        android:name=".message.fcm.FirebaseService"
+	        android:name="com.brucechoe.meteor.message.fcm.FirebaseService"
 	        android:exported="true"
 	        android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
@@ -32,29 +32,29 @@
 	        android:resource="@color/purple_700" />
 
         <activity
-	        android:name=".message.MyMsgActivity"
+	        android:name="com.brucechoe.meteor.message.MyMsgActivity"
 	        android:theme="@style/Theme.AppCompat"
 	        android:exported="false" />
 	    
         <activity
-	        android:name=".message.ListViewAdapter"
+	        android:name="com.brucechoe.meteor.message.ListViewAdapter"
 	        android:exported="true"
 	        android:theme="@style/Theme.AppCompat"
 	        tools:ignore="Instantiatable" />
         <activity
-	        android:name=".message.MyLikeListActivity"
+	        android:name="com.brucechoe.meteor.message.MyLikeListActivity"
 	        android:exported="true"
 	        android:theme="@style/Theme.AppCompat" />
         <activity
-	        android:name=".setting.SettingActivity"
+	        android:name="com.brucechoe.meteor.setting.SettingActivity"
 	        android:exported="true"
 	        android:theme="@style/Theme.AppCompat" />
         <activity
-	        android:name=".setting.MyPageActivity"
+	        android:name="com.brucechoe.meteor.setting.MyPageActivity"
 	        android:exported="true"
 	        android:theme="@style/Theme.AppCompat" />
         <activity
-	        android:name=".auth.IntroActivity"
+	        android:name="com.brucechoe.meteor.auth.IntroActivity"
 	        android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -63,15 +63,15 @@
             </intent-filter>
         </activity>
         <activity
-	        android:name=".auth.LoginActivity"
+	        android:name="com.brucechoe.meteor.auth.LoginActivity"
 	        android:exported="true"
 	        android:theme="@style/Theme.AppCompat" />
         <activity
-	        android:name=".auth.JoinActivity"
+	        android:name="com.brucechoe.meteor.auth.JoinActivity"
 	        android:exported="true"
 	        android:theme="@style/Theme.AppCompat" />
         <activity
-	        android:name=".MainActivity"
+	        android:name="com.brucechoe.meteor.MainActivity"
 	        android:exported="true"
 	        android:theme="@style/Theme.AppCompat">
         </activity>
