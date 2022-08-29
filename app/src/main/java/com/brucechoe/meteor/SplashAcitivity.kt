@@ -9,7 +9,7 @@ import com.brucechoe.meteor.auth.IntroActivity
 import com.brucechoe.meteor.auth.LoginActivity
 import com.brucechoe.meteor.utils.FirebaseAuthUtils
 
-class SplashAcitivity : AppCompatActivity() {˚
+class SplashAcitivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
