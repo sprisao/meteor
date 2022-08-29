@@ -18,7 +18,6 @@ class IntroActivity : AppCompatActivity() {
     private val auth = FirebaseAuth.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
 

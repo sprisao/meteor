@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-<style name="Theme.Tinder_test.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/black</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/logo_white</item>
-        <item name="windowSplashScreenAnimationDuration">1000</item>
-        <item name="android:windowSplashScreenBrandingImage">@drawable/logo_color</item>
-        <item name="postSplashScreenTheme">@style/Theme.Tinder_test</item>
-    </style></resources>
