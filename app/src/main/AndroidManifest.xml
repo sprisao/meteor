@@ -16,6 +16,7 @@
 	    
         <activity
 	        android:name=".SplashAcitivity"
+	        android:theme="@style/Theme.Meteor.Splash"
 	        android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
