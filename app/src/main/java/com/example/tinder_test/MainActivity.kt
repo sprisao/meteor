@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                 if (direction == Direction.Left) {
                 }
 
-                userCount = userCount + 1
+                userCount += 1
 
                 if (userCount == userDataList.count()) {
 //                    Toast.makeText(this@MainActivity, "새로운 유저 받아오기", Toast.LENGTH_LONG).show()
@@ -114,8 +114,8 @@ class MainActivity : AppCompatActivity() {
 
                 Log.d(TAG, data!!.gender.toString())
 
-                currentUserGender = data?.gender.toString()
-                MyInfo.myNickname = data?.nickname.toString()
+                currentUserGender = data.gender.toString()
+                MyInfo.myNickname = data.nickname.toString()
 
                 getUserDataList(currentUserGender)
 
@@ -142,7 +142,7 @@ class MainActivity : AppCompatActivity() {
                     if (user!!.gender.toString().equals(currentUserGender)) {
 
                     } else {
-                        userDataList.add(user!!)
+                        userDataList.add(user)
                     }
                 }
 
@@ -221,6 +221,5 @@ class MainActivity : AppCompatActivity() {
             notify(123, builder.build())
         }
     }
-
 }
 

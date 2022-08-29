@@ -37,8 +37,8 @@ class MyLikeListActivity : AppCompatActivity() {
     private val likeUserListUid = mutableListOf<String>()
 
     private lateinit var listViewAdapter: ListViewAdapter
-    lateinit var getterUid : String
-    lateinit var getterToken : String
+    lateinit var getterUid: String
+    lateinit var getterToken: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -51,26 +51,6 @@ class MyLikeListActivity : AppCompatActivity() {
 
         //내가 좋아요한 유저들
         getMyLikeList()
-
-//       userListView.setOnItemClickListener { parent, view, position, id ->
-//
-//           // Push Notification 데이터
-//           val title = "Hi"
-//           val message = "Message"
-//           val token = likeUserList[position].token.toString()
-//
-//           // Push Notification 전송
-//           if (title.isNotEmpty() && message.isNotEmpty()) {
-//               PushNotification(
-//                   NotificationData(title, message),
-//                   token
-//               ).also {
-//                   sendNotification(it)
-//               }
-//           }
-//
-//
-//       }
 
 
         userListView.setOnItemLongClickListener { parent, view, position, id ->
@@ -206,30 +186,30 @@ class MyLikeListActivity : AppCompatActivity() {
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
         val mBuilder = AlertDialog.Builder(this).setView(mDialogView).setTitle("메세지 보내기")
 
-       val mAlertDialog =  mBuilder.show()
+        val mAlertDialog = mBuilder.show()
 
         val btn = mAlertDialog.findViewById<Button>(R.id.sendBtn)
         val textArea = mAlertDialog.findViewById<EditText>(R.id.sendTextArea)
 
-        btn?.setOnClickListener{
+        btn?.setOnClickListener {
 
             val msgText = textArea!!.text.toString()
             val msgModel = MsgModel(MyInfo.myNickname, msgText)
             FirebaseRef.userMsgRef.child(getterUid).push().setValue(msgModel)
 
-           val title = "Hi"
-           val message = "Message"
-           val token = getterToken
+            val title = "Hi"
+            val message = "Message"
+            val token = getterToken
 
-           // Push Notification 전송
-           if (title.isNotEmpty() && message.isNotEmpty()) {
-               PushNotification(
-                   NotificationData(MyInfo.myNickname,  msgText),
-                   token
-               ).also {
-                   sendNotification(it)
-               }
-           }
+            // Push Notification 전송
+            if (title.isNotEmpty() && message.isNotEmpty()) {
+                PushNotification(
+                    NotificationData(MyInfo.myNickname, msgText),
+                    token
+                ).also {
+                    sendNotification(it)
+                }
+            }
             mAlertDialog.dismiss()
         }
 
