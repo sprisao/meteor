@@ -4,53 +4,68 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:orientation="vertical"
+	android:background="@color/white"
 	android:gravity="center"
-	tools:context=".auth.LoginActivity"
-	>
+	android:orientation="vertical"
+	tools:context=".auth.LoginActivity">
 
 	
 	<LinearLayout
-		android:layout_marginHorizontal="10dp"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:orientation="vertical"
-		>
+		android:layout_marginHorizontal="10dp"
+		android:gravity="center"
+		android:orientation="vertical">
+		<ImageView
+			android:layout_width="100dp"
+			android:layout_height="50dp"
+			android:src="@drawable/logo_black" />
 		<com.google.android.material.textfield.TextInputLayout
-			android:layout_width="match_parent"
+			android:layout_width="300dp"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="50dp"
 			android:background="@color/white"
-			android:layout_height="wrap_content">
+			android:textColorHint="@color/black">
+		<!-- maxLines 와 inputType 설정하여 EnterKey 적용 안되게 -->
 			<com.google.android.material.textfield.TextInputEditText
-				android:textColor="@color/black"
 				android:id="@+id/emailArea"
-				android:hint="email"
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content" />
+				android:layout_height="wrap_content"
+				android:hint="이메일"
+				android:inputType="textEmailAddress"
+				android:maxLines="1"
+				android:textColor="@color/black"
+				android:textSize="12dp" />
 		</com.google.android.material.textfield.TextInputLayout>
 		
 		<com.google.android.material.textfield.TextInputLayout
-			android:layout_width="match_parent"
-			android:background="@color/white"
+			android:layout_width="300dp"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="10dp"
+			android:background="@color/white"
+			android:textColorHint="@color/black"
 			app:counterEnabled="true"
 			app:counterMaxLength="10">
 			<com.google.android.material.textfield.TextInputEditText
 				android:id="@+id/pwdArea"
-				android:textColor="@color/black"
-				android:inputType="textPassword"
-				android:hint="password"
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content" />
+				android:layout_height="wrap_content"
+				android:hint="비밀번호"
+				android:inputType="textPassword"
+				android:maxLines="1"
+				android:textColor="@color/black"
+				android:textSize="12dp" />
 		</com.google.android.material.textfield.TextInputLayout>
 		
 	<Button
 		android:id="@+id/BtnLogin"
-		android:layout_marginTop="20dp"
+		android:layout_width="300dp"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="25dp"
+		android:background="@drawable/buttons"
 		android:text="로그인"
-		android:background="@color/design_default_color_primary"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"/>
+		android:textColor="@color/white"
+		android:textSize="12dp" />
 	
 	</LinearLayout>
 	
