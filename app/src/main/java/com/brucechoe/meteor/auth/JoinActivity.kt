@@ -43,7 +43,6 @@ class JoinActivity : AppCompatActivity() {
         setFrag(currentFrag)
 
         nextBtn.setOnClickListener {
-
             currentFrag = currentFrag + 1
             Log.e(TAG, currentFrag.toString())
             setFrag(currentFrag)
@@ -105,6 +104,7 @@ class JoinActivity : AppCompatActivity() {
 //        }
     }
 
+
     private fun setFrag(fragNum: Int) {
         val ft = supportFragmentManager.beginTransaction()
         when (fragNum) {
@@ -132,7 +132,17 @@ class JoinActivity : AppCompatActivity() {
         }
     }
 
-//    private fun uploadImage(uid : String){
+    override fun onBackPressed() {
+        if (currentFrag == 0) {
+            super.onBackPressed()
+        }
+        currentFrag = currentFrag - 1
+        Log.e(TAG, currentFrag.toString())
+        setFrag(currentFrag)
+
+    }
+
+    //    private fun uploadImage(uid : String){
 //
 //       val storage = Firebase.storage
 //       val storageRef = storage.reference.child(uid + ".png")
